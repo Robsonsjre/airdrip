@@ -42,11 +42,11 @@ contract Defuse {
         uint strikePrice,
         uint expiration,
         uint exerciseWindowSize
-    ) public {
+    ) public returns(IPodOption option) {
         underlyingAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
 
         IOptionFactory optionFactory = IOptionFactory(configurationManager.getOptionFactory());
-        IPodOption option = IPodOption(optionFactory.createOption(
+        option = IPodOption(optionFactory.createOption(
                 string(abi.encodePacked(token.symbol(), " Call Option")),
                 string(abi.encodePacked("Pod", token.symbol(), ":", strikeAsset.symbol())),
                 IPodOption.OptionType.CALL,
@@ -58,10 +58,49 @@ contract Defuse {
                 exerciseWindowSize
             ));
 
-
-
         option.mint(underlyingAmount, address(this));
     }
 
-   function craete
+    function createOptionAndStream( 
+        IERC20 underlyingAsset,
+        IERC20 strikeAsset,
+        uint underlyingAmount,
+        uint strikePrice,
+        uint expiration,
+        uint exerciseWindowSize,
+        uint initialAmount,
+        uint endOfStream) public returns(bool) {
+        
+        createOption(
+          underlyingAsset,
+          strikeAsset,
+          underlyingAmount,
+          strikePrice,
+          expiration,
+          exerciseWindowSize
+        );
+
+        underlyingAsset.approve(sablier.address, initialAmount);
+
+        uint256 streamId = sablier.createStream(address(this)...);
+
+        IDripToken drip = new dripToken(option.address, streamId);
+
+        drip.mint(amount);
+
+        if (createSecondary) {
+            //crate secondary
+        }
+    }
+
+   function claim(uint256 amount, IDripToken drip) public return(bool) {
+       // remove from stream
+       sablier.withdrawFromStream(amount, drip.streamId);
+
+       strikeAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
+
+       strikeAsset.approve(option.address, option.strikePrice * amount);
+
+       option.exercise(amount);
+   }
 }
