@@ -1,0 +1,97 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "4.11.0",
+    "@material-ui/icons": "4.9.1",
+    "@pods-finance/sdk": "1.0.0",
+    "@walletconnect/web3-provider": "1.3.6",
+    "@xstate/react": "1.0.1",
+    "apollo-cache-inmemory": "1.6.6",
+    "apollo-client": "2.6.10",
+    "apollo-link-http": "1.5.17",
+    "bignumber.js": "9.0.0",
+    "chart.js": "2.9.4",
+    "customize-cra": "1.0.0",
+    "dayjs": "1.8.35",
+    "ethers": "5.3.1",
+    "graphql": "15.5.0",
+    "graphql-tag": "2.11.0",
+    "lerna": "3.20.2",
+    "lodash": "4.17.21",
+    "normalize.css": "8.0.1",
+    "numeral": "2.0.6",
+    "polished": "3.6.5",
+    "query-string": "6.13.6",
+    "react": "^16.13.1",
+    "react-apollo": "3.1.5",
+    "react-app-rewired": "2.1.6",
+    "react-chartjs-2": "2.10.0",
+    "react-dom": "^16.13.1",
+    "react-ga": "3.1.2",
+    "react-router-dom": "5.2.0",
+    "react-router-hash-link": "2.0.0",
+    "react-scripts": "3.4.1",
+    "react-toast-notifications": "https://github.com/razgraf/react-toast-notifications.git#0e3fd96",
+    "styled-components": "5.1.0",
+    "use-clipboard-copy": "0.1.2",
+    "validator": "13.1.1",
+    "web3": "1.3.3",
+    "web3modal": "1.9.3",
+    "xstate": "4.13.0"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "dev": "PORT=3002 react-app-rewired start",
+    "test": "react-app-rewired test",
+    "test:ci": "CI=true react-scripts test --env=jsdom --passWithNoTests",
+    "eject": "react-scripts eject",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    "postinstall": "lerna link"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "react-hooks"
+    ],
+    "globals": [
+      "it",
+      "describe",
+      "beforeAll",
+      "test",
+      "expect",
+      "fetch",
+      "localStorage"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "devDependencies": {
+    "gh-pages": "2.2.0",
+    "husky": "4.2.5",
+    "standard": "14.3.4"
+  }
+}
