@@ -15,6 +15,8 @@ import Theme from '../themes'
 import Campaigns from './Campaigns'
 import Watcher from './Watcher'
 
+import { Toolbar } from '../components/specific'
+
 function Wrapper ({ children }) {
   return (
     <ApolloProvider client={client}>
@@ -61,6 +63,7 @@ function App () {
     <BrowserRouter>
       <Wrapper>
         <Manager>
+          <Toolbar />
           <Watcher />
           <Routes />
         </Manager>

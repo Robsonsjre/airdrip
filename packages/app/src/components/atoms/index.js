@@ -1,5 +1,7 @@
+export { default as Box } from './Box'
 export { default as BoxAction } from './BoxAction'
 export { default as Checkmark } from './Checkmark'
+export { default as ExternalLink } from './ExternalLink'
 export { default as Toast } from './Toast'
 export { default as Switch } from './Switch'
 export { default as Checkbox } from './Checkbox'

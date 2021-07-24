@@ -1,6 +1,6 @@
 const sizes = {
   edge: '16px',
-  canvasMaxWidth: '1200px',
+  canvasMaxWidth: '1280px',
 
   layoutEdge: '24px',
   layoutEdgeMedium: '16px',

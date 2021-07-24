@@ -23,7 +23,11 @@ const colors = {
   yellow2: '#FFC83B',
   orange: '#FF9800',
 
-  google: '#E13F2A'
+  google: '#E13F2A',
+
+  tint: (t = 10) => `#ffffff${t}`,
+
+  border: '#ffffff10'
 }
 
 export const gradients = {

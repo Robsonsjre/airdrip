@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 import { useLocalStorage } from '../../hooks'
 import { NOOP, resolveAddressToENS } from '../../utils'
 import { macros } from '../../constants'
@@ -20,7 +21,18 @@ const initial = {
   }
 }
 
-const options = {}
+const options = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      bridge: 'https://bridge.walletconnect.org',
+      rpc: {
+        1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KOVAN_ID}`,
+        137: `https://polygon-mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_MATIC_ID}`
+      }
+    }
+  }
+}
 
 /**
  *
