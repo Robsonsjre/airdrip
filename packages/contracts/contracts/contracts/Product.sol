@@ -4,6 +4,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IConfigurationManager, IOptionAMMFactory, IOptionFactory} from "../external/Pods.sol";
+import ISablier from "../external/ISablier.sol";
 
 contract Defuse {
     using SafeERC20 for IERC20;
@@ -23,11 +24,15 @@ contract Defuse {
      * @notice Counter for new vault ids.
      */
     uint public nextVaultId;
+    ISablier public sablier;
 
     IConfigurationManager public immutable configurationManager;
+    ISablier public immutable sablier;
 
-    constructor(IConfigurationManager _configurationManager) {
+    constructor(IConfigurationManager _configurationManager, ISablier _sablier) {
         configurationManager = _configurationManager;
+        sablier = _sablier;
+
     }
 
     function createOption(
@@ -57,4 +62,6 @@ contract Defuse {
 
         option.mint(underlyingAmount, address(this));
     }
+
+   function craete
 }
