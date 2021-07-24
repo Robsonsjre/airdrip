@@ -74,4 +74,15 @@ contract Dripper {
 
         nextVaultId++;
     }
+
+//   function claim(uint256 amount, IDripToken drip) public return(bool) {
+//       // remove from stream
+//       sablier.withdrawFromStream(amount, drip.streamId);
+//
+//       strikeAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
+//
+//       strikeAsset.approve(option.address, option.strikePrice * amount);
+//
+//       option.exercise(amount);
+//   }
 }
