@@ -2,6 +2,11 @@ import _ from 'lodash'
 import { useMemo, useCallback } from 'react'
 import { prefs } from '../constants'
 import { useUIContext } from '../contexts/UI'
+import { useTablesContext } from '../contexts/Tables'
+
+export function useTables () {
+  return useTablesContext()
+}
 
 export function useVersion () {
   const { versioning } = useUIContext()

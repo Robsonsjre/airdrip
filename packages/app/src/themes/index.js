@@ -6,6 +6,8 @@ import {
 } from 'styled-components'
 import colors, { gradients } from './colors'
 import extensions from './extensions'
+import constants from './constants'
+import styles from './styles'
 import medias from './medias'
 import sizes from './sizes'
 
@@ -119,10 +121,12 @@ function ThemeProvider ({ children }) {
     <Provider
       theme={{
         colors,
+        constants,
         gradients,
         extensions,
         medias,
-        sizes
+        sizes,
+        styles
       }}
     >
       {children}
@@ -132,18 +136,22 @@ function ThemeProvider ({ children }) {
 
 const Theme = {
   colors,
+  constants,
   gradients,
   medias,
   sizes,
+  styles,
   extensions,
   GlobalStyle,
   Provider: ThemeProvider
 }
 export {
   colors,
+  constants,
   gradients,
   medias,
   sizes,
+  styles,
   extensions,
   GlobalStyle,
   ThemeProvider as Provider

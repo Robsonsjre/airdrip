@@ -7,8 +7,11 @@ const production = {
     archive: []
   },
   [networks.kovan]: {
-    manager: '',
-    options: [],
+    manager: '0x11dB0eDFe06Cd06C9AFE96b9813043e0853e7926',
+    options: [
+      '0xa2Ac6463dC1Ef5541B1118F7E11e5733D419c131',
+      '0xc34014836ccfac1e372a5da57204878b4f5fcdb5'
+    ],
     archive: []
   },
   [networks.matic]: {
@@ -35,8 +38,11 @@ const development = {
     archive: []
   },
   [networks.kovan]: {
-    manager: '',
-    options: [],
+    manager: '0x11dB0eDFe06Cd06C9AFE96b9813043e0853e7926',
+    options: [
+      '0xa2Ac6463dC1Ef5541B1118F7E11e5733D419c131',
+      '0xc34014836ccfac1e372a5da57204878b4f5fcdb5'
+    ],
     archive: []
   },
   [networks.matic]: {

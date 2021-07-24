@@ -8,10 +8,12 @@ import { Toast } from '../components/atoms'
 
 import Web3Provider from '../contexts/Web3'
 import PriceProvider from '../contexts/Price'
+import TablesProvider from '../contexts/Tables'
 import UIProvider from '../contexts/UI'
+import DataStaticProvider from '../contexts/DataStatic'
+import DataDynamicProvider from '../contexts/DataDynamic'
 
 import Theme from '../themes'
-
 import Campaigns from './Campaigns'
 import Watcher from './Watcher'
 
@@ -22,7 +24,13 @@ function Wrapper ({ children }) {
     <ApolloProvider client={client}>
       <Web3Provider>
         <UIProvider>
-          <PriceProvider>{children}</PriceProvider>
+          <PriceProvider>
+            <DataStaticProvider>
+              <DataDynamicProvider>
+                <TablesProvider>{children}</TablesProvider>
+              </DataDynamicProvider>
+            </DataStaticProvider>
+          </PriceProvider>
         </UIProvider>
       </Web3Provider>
     </ApolloProvider>
