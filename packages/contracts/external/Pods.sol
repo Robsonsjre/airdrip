@@ -78,6 +78,6 @@ interface IOptionFactory {
         uint256 strikePrice,
         uint256 expiration,
         uint256 exerciseWindowSize,
-        bool isRewards
+        bool hasRewards
     ) external returns (address);
 }
