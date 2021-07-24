@@ -3,37 +3,58 @@ pragma solidity >=0.8.4;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {IConfigurationManager, IOptionAMMFactory, IOptionFactory} from "../external/Pods.sol";
 
-contract Product is ERC20 {
+contract Defuse {
     using SafeERC20 for IERC20;
 
     struct Vault {
         uint streamId;
+        address option;
         address owner;
     }
 
+    /**
+     * @notice The vault objects identifiable by their unsigned integer ids.
+     */
     mapping(uint => Vault) public vaults;
 
-    function createProduct(uint opcao, uint startdate, IERC20 token, uint amount) public {
-        // Take tokens
-        // Create Option
-        // Create Vault
-        // Create Stream
-        // Transfer back the Shares
+    /**
+     * @notice Counter for new vault ids.
+     */
+    uint public nextVaultId;
+
+    IConfigurationManager public immutable configurationManager;
+
+    constructor(IConfigurationManager _configurationManager) {
+        configurationManager = _configurationManager;
     }
 
-    function claim(uint vaultId) public {
-        // send vaultStremeadToken
-        // Withdraw from Sablier (Check if the amount is below the ratio / expiration -> current time = Percentage)
-        // Call the exercise function, you will need to send the strike asset (USDC) need to approve first?
-        //
-        // Flash exercise would need to:
-        //
-        // Get Strike Asset from AAVE
-        //
-        // Send the Option token + Strike => Receive underlying token => sells in market (Need to find a trading venue) .
-        //
-        // Flashloan
-        // exercise
+    function createOption(
+        IERC20 underlyingAsset,
+        IERC20 strikeAsset,
+        uint underlyingAmount,
+        uint strikePrice,
+        uint expiration,
+        uint exerciseWindowSize
+    ) public {
+        underlyingAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
+
+        IOptionFactory optionFactory = IOptionFactory(configurationManager.getOptionFactory());
+        IPodOption option = IPodOption(optionFactory.createOption(
+                string(abi.encodePacked(token.symbol(), " Call Option")),
+                string(abi.encodePacked("Pod", token.symbol(), ":", strikeAsset.symbol())),
+                IPodOption.OptionType.CALL,
+                IPodOption.ExerciseType.AMERICAN,
+                address(underlyingAsset),
+                address(strikeAsset),
+                strikePrice,
+                expiration,
+                exerciseWindowSize
+            ));
+
+
+
+        option.mint(underlyingAmount, address(this));
     }
 }
