@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IConfigurationManager, IOptionAMMFactory, IOptionFactory, IPodOption} from "../external/Pods.sol";
 import {ISablier} from "../external/ISablier.sol";
 import "./DripToken.sol";
-import "./Types.sol";
 
 contract Dripper {
     using SafeERC20 for IERC20;
