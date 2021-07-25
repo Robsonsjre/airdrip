@@ -4,7 +4,7 @@ import { useDataStaticContext } from '../contexts/DataStatic'
 import { useDataDynamicContext } from '../contexts/DataDynamic'
 import { Option } from '../models'
 import { useMarketPrices } from './price'
-import { useAddresses, useRouteId, useToken } from './utility'
+import { useAddresses, useToken } from './utility'
 
 /**
  * --------------------------------------
@@ -47,8 +47,8 @@ export function useOptions (isCurated = false) {
 }
 
 export function useOption (force = null) {
-  const id = useRouteId(force)
   const { options: source } = useAddresses()
+  const id = useMemo(() => _.get(source, '0'), [source])
   const { options: raw } = useDataStaticContext()
 
   const isExpected = useMemo(() => source.length > raw.length, [source, raw])
@@ -90,8 +90,8 @@ export function useOption (force = null) {
  * @param {string} force Force optiona address to be used instead of route id
  */
 export function useOptionResolverINSTANCE (force = null) {
-  const id = useRouteId(force)
   const { options: source } = useAddresses()
+  const id = useMemo(() => _.get(source, '0'), [source])
   const { isLoading } = useOptions()
   const { options: raw, trackOption: track } = useDataStaticContext()
 

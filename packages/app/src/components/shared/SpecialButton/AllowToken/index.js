@@ -65,8 +65,8 @@ function AllowToken ({
     <Button
       title={title || 'Allow'}
       titleShort='Allow'
-      appearance={a => a.gradient}
-      accent={(a, c) => (c ? a.primary : a.dark)}
+      appearance={a => a.dark}
+      accent={a => a.white}
       type={t => t.button}
       isLoading={isLoading}
       onClick={onApprove}

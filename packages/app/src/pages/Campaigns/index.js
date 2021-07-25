@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import TablePartial from '../../components/shared/Table'
 
-import { useCampaignsTable } from '../../hooks'
+import { useCampaignsTable, useOptionResolverINSTANCE } from '../../hooks'
 import { Campaign } from '../../components/specific'
 
 const Wrapper = styled.div`
@@ -41,6 +41,7 @@ const Table = styled(TablePartial)`
 
 export default function Campaigns () {
   const { data } = useCampaignsTable()
+  useOptionResolverINSTANCE()
   return (
     <Wrapper>
       <Content>

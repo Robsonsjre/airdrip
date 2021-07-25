@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { rgba } from 'polished'
-import IconLock from '@material-ui/icons/LockOutlined'
+import { NavLink } from 'react-router-dom'
 
 const WrapperPartial = styled.div`
   position: relative;
@@ -48,7 +48,7 @@ const Main = styled.div`
   flex: 1;
 `
 
-const Item = styled.div`
+const Item = styled(NavLink)`
   grid-column: span 1;
   display: flex;
   align-items: center;
@@ -57,14 +57,16 @@ const Item = styled.div`
   flex: 1;
   border-radius: 2px;
 
-  &[data-active='true'] {
+  &[data-active='true'],
+  &.active {
     background-color: ${props => props.theme.colors.primary};
   }
-  &:not([data-active='true']) {
-    /* &:hover,
+
+  &:not(.active) {
+    &:hover,
     &:active {
       background-color: ${props => props.theme.colors.tint('10')};
-    } */
+    }
   }
 `
 
@@ -133,13 +135,10 @@ function Persona () {
     <Wrapper>
       <Box>
         <Main>
-          <Item>
-            <Title>
-              DAO
-              <IconLock />
-            </Title>
+          <Item exact to='/dao'>
+            <Title>DAO</Title>
           </Item>
-          <Item data-active='true'>
+          <Item exact to='/'>
             <Title>Recipient</Title>
           </Item>
         </Main>

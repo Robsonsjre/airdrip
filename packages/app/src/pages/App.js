@@ -15,6 +15,7 @@ import DataDynamicProvider from '../contexts/DataDynamic'
 
 import Theme from '../themes'
 import Campaigns from './Campaigns'
+import DAO from './DAO'
 import Watcher from './Watcher'
 
 import { Toolbar } from '../components/specific'
@@ -54,6 +55,7 @@ function Routes () {
   return (
     <Switch>
       <Route path={pages.campaigns.route} component={Campaigns} exact />
+      <Route path={pages.dao.route} component={DAO} exact />
       <Redirect to={pages.campaigns.route} />
     </Switch>
   )

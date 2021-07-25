@@ -4,5 +4,11 @@ export const pages = {
     builder: () => '/',
     title: 'Campaigns',
     depth: 0
+  },
+  dao: {
+    route: '/dao',
+    builder: () => '/dao',
+    title: 'DAO',
+    depth: 0
   }
 }

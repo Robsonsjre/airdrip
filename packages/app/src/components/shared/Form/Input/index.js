@@ -4,6 +4,7 @@ import Token from './Token'
 import TokenList from './TokenList'
 import Select from './Select'
 import Slider from './Slider'
+import Text from './Text'
 
 export default {
   Amount,
@@ -11,5 +12,6 @@ export default {
   Token,
   TokenList,
   Select,
-  Slider
+  Slider,
+  Text
 }
