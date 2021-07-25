@@ -47,6 +47,9 @@ contract Dripper {
         underlyingAsset.safeTransferFrom(msg.sender, address(this), campaignAmount);
 
         IPodOption option = _createOption(underlyingAsset, strikeAsset, strikePrice, expiration);
+
+        underlyingAsset.approve(address(option), campaignAmount);
+        
         option.mint(campaignAmount, address(this));
 
         option.approve(address(sablier), campaignAmount);
