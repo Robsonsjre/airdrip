@@ -1,5 +1,11 @@
 https://airdrip.netlify.app
 
+Streaming call options for core contributors.
+
+DAOs main goal is to sustain the development and growth of their protocol. Traditionally startups align incentive between the shareholders and the contributors by extending stock options to their employees. This is now possible in DeFi by creating a call option using Pods contracts and streaming them using Sablier. 
+
+The main difference between traditional stock options and DeFi token options is that there is a path to finding secondary market liquidity which is a lot faster than the traditional way.
+
 ## Packages :package:
 
 We're maintaining this as a monorepo with multiple sub packages.
