@@ -1,4 +1,4 @@
-https://aidrip.netlify.app
+https://airdrip.netlify.app
 
 ## Packages :package:
 
