@@ -7,6 +7,7 @@ require('dotenv').config({
 require('@nomiclabs/hardhat-ethers')
 require('@nomiclabs/hardhat-waffle')
 require('@nomiclabs/hardhat-solhint')
+require('./tasks/deployDripper')
 
 module.exports = {
   solidity: {
