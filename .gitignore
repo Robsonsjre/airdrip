@@ -5,6 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+coverage.json
+.coverage*
+coverage/
+deployments/local.json
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -62,6 +66,9 @@ typings/
 # Optional REPL history
 .node_repl_history
 
+# Artifacts created by buidler compile
+artifacts/
+
 # Output of 'npm pack'
 *.tgz
 
@@ -77,6 +84,10 @@ typings/
 
 # Next.js build output
 .next
+
+cache/
+
+build/
 
 # Nuxt.js build / generate output
 .nuxt
@@ -102,6 +113,7 @@ dist
 
 # TernJS port file
 .tern-port
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
