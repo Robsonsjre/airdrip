@@ -60,9 +60,10 @@ contract Dripper {
 
         option.approve(address(sablier), campaignAmount);
 
-        uint streamId = sablier.createStream(address(this), campaignAmount, address(option), startTime, endTime);
-
         DripToken drip = new DripToken(this);
+        uint streamId = sablier.createStream(address(drip), campaignAmount, address(option), startTime, endTime);
+
+        
         _campaigns[address(drip)] = Campaign({
             owner: msg.sender,
             option: address(option),
