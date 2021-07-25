@@ -48,7 +48,7 @@ contract Dripper {
         uint expiration,
         uint startTime,
         uint endTime
-    ) public returns (uint vaultId) {
+    ) public returns (address) {
         require(endTime - expiration > MIN_GAP_TIME, "invalid endTime");
         underlyingAsset.safeTransferFrom(msg.sender, address(this), campaignAmount);
 
@@ -62,13 +62,14 @@ contract Dripper {
 
         uint streamId = sablier.createStream(address(this), campaignAmount, address(option), startTime, endTime);
 
+        DripToken drip = new DripToken(this);
         _campaigns[address(drip)] = Campaign({
             owner: msg.sender,
             option: address(option),
             streamId: streamId
         });
 
-        drip.mint(msg.sender, underlyingAmount);
+        drip.mint(msg.sender, campaignAmount);
         return address(drip);
     }
 
