@@ -7,7 +7,18 @@ task('deployDripper', 'Deploy Dripper Contract')
     const Dripper = await ethers.getContractFactory('Dripper')
     const dripper = await Dripper.deploy(manager, sablier)
 
-    await dripper.deployed()
+    await dripper.deployTransaction.wait(7)
+
+    constructorArguments = [manager, sablier]
+
+    const verifyObj = {
+      address: dripper.address,
+      constructorArguments
+    }
+    await hre.run('verify:verify', verifyObj)
+
+    hre.config.tenderly.project = `Pods-Kovan`
+    await hre.tenderly.push({ name: 'Dripper', address: dripper.address })
 
     console.log('Dripper', dripper.address)
     return dripper.address
