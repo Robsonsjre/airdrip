@@ -7,7 +7,7 @@ import { layout } from '../../components/shared/Table'
 import { useMarketPrices } from '../price'
 import { useOptions } from '../data'
 // import { usePositions } from '../position'
-import { useTotalSupplies } from '../adhoc'
+import { useTotalSupplies, useOptionBalances } from '../adhoc'
 import { toNumeralPrice, toQuantity } from '../../utils'
 
 export default function useCampaignsTable () {
@@ -15,13 +15,15 @@ export default function useCampaignsTable () {
   // const { positions } = usePositions()
   const { options, isLoading: isLoadingOptions } = useOptions(true)
   const { list: supplies } = useTotalSupplies()
+  const { list: balances } = useOptionBalances()
 
   const columns = useMemo(
     () => [
       {
         title: 'Campaign',
         layout: layout.PodPair,
-        subtitle: 'Asset'
+        subtitle: 'Asset',
+        weight: 3
       },
       {
         title: 'Strike Price',
@@ -30,23 +32,38 @@ export default function useCampaignsTable () {
           <>
             Market Price <IconMarket />
           </>
-        )
+        ),
+        weight: 2
       },
       {
         title: 'Remaining supply',
-        layout: layout.Text
+        layout: layout.Text,
+        weight: 2
+      },
+      {
+        title: 'Balance',
+        layout: layout.Text,
+        weight: 2
+      },
+      {
+        title: 'Streamed',
+        layout: layout.Text,
+        weight: 2
       },
       {
         title: 'Expiration',
-        layout: layout.Timestamp
+        layout: layout.Timestamp,
+        weight: 2
       },
       {
         title: 'Exercise Window',
-        layout: layout.TextDeck
+        layout: layout.TextDeck,
+        weight: 2
       },
       {
         title: '',
-        layout: layout.Actions
+        layout: layout.Actions,
+        weight: 1
       }
     ],
     []
@@ -65,12 +82,15 @@ export default function useCampaignsTable () {
         const durations = option.getDurations()
         const market = _.get(spot, option.underlying.symbol.toUpperCase())
 
-        const size = _.get(
+        const supply = _.get(
           supplies.find(item => _.get(item, '0') === _.get(option, 'address')),
           '1'
         )
 
-        console.log(size)
+        const balance = _.get(
+          balances.find(item => _.get(item, '0') === _.get(option, 'address')),
+          '1'
+        )
 
         return {
           id: option.address,
@@ -83,9 +103,17 @@ export default function useCampaignsTable () {
               market: numeral(market).format('$0.[00]')
             },
             {
-              value: size
-                ? toQuantity(toNumeralPrice(size, false), 'option')
+              value: supply
+                ? toQuantity(toNumeralPrice(supply, false), 'option')
                 : '0 options'
+            },
+            {
+              value: balance
+                ? toQuantity(toNumeralPrice(balance, false), 'option')
+                : '0 options'
+            },
+            {
+              value: '0%'
             },
             {
               value: durations.expiration
@@ -100,7 +128,7 @@ export default function useCampaignsTable () {
           ]
         }
       }),
-    [options, spot, supplies]
+    [options, spot, supplies, balances]
   )
 
   return {

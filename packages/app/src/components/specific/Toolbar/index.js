@@ -16,6 +16,11 @@ const Container = styled(Box)`
   top: 0;
   width: 100%;
   max-width: ${props => props.theme.sizes.canvasMaxWidth};
+  border: 1px solid ${props => props.theme.colors.border};
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  border-top: none;
 `
 
 const Content = styled.div`

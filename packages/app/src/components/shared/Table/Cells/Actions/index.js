@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import IconArrow from '@material-ui/icons/ArrowForwardRounded'
+import IconArrow from '@material-ui/icons/ArrowDownwardRounded'
 const Wrapper = styled.div`
   grid-column: span 1;
   display: flex;
@@ -28,7 +28,7 @@ const Visit = styled(Link)`
   & > svg {
     font-size: 16pt;
     color: ${props => props.theme.colors.white};
-    transform: translateX(0px);
+    transform: translateY(0px);
     transition: transform 150ms;
   }
 
@@ -37,7 +37,8 @@ const Visit = styled(Link)`
     box-shadow: ${props => props.theme.styles.boxShadowHover};
     transition: box-shadow 250ms;
     & > svg {
-      transform: translateX(2px);
+      color: ${props => props.theme.colors.primary};
+      transform: translateY(2px);
       transition: transform 250ms;
     }
   }

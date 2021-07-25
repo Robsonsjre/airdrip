@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { rgba } from 'polished'
+import IconLock from '@material-ui/icons/LockOutlined'
 
 const WrapperPartial = styled.div`
   position: relative;
@@ -17,7 +18,7 @@ const Box = styled.div`
   background-color: ${props => props.theme.colors.tint('05')};
   border: 1px solid ${props => props.theme.colors.border};
   transition: box-shadow 250ms;
-  cursor: pointer;
+
   overflow: hidden;
 
   & > svg {
@@ -60,20 +61,27 @@ const Item = styled.div`
     background-color: ${props => props.theme.colors.primary};
   }
   &:not([data-active='true']) {
-    &:hover,
+    /* &:hover,
     &:active {
       background-color: ${props => props.theme.colors.tint('10')};
-    }
+    } */
   }
 `
 
-const Title = styled.p`
+const Title = styled.div`
+  display: flex;
+  align-items: center;
   margin: 0;
   font-size: 11pt;
   color: ${props => props.theme.colors.white};
   font-weight: 600;
   max-width: 130px;
   ${props => props.theme.extensions.ellipsis};
+
+  & > svg {
+    font-size: 12pt;
+    margin-left: 6px;
+  }
 
   & > span {
     display: inline-flex;
@@ -125,10 +133,13 @@ function Persona () {
     <Wrapper>
       <Box>
         <Main>
-          <Item data-active='true'>
-            <Title>DAO</Title>
-          </Item>
           <Item>
+            <Title>
+              DAO
+              <IconLock />
+            </Title>
+          </Item>
+          <Item data-active='true'>
             <Title>Recipient</Title>
           </Item>
         </Main>

@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import TablePartial from '../../components/shared/Table'
 
 import { useCampaignsTable } from '../../hooks'
+import { Campaign } from '../../components/specific'
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 140px;
   width: 100%;
 `
@@ -46,6 +48,7 @@ export default function Campaigns () {
           <Table id='campaigns' data={data} />
         </TableWrapper>
       </Content>
+      <Campaign />
     </Wrapper>
   )
 }

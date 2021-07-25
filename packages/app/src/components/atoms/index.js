@@ -1,5 +1,6 @@
 export { default as Box } from './Box'
 export { default as BoxAction } from './BoxAction'
+export { default as Button } from './Button'
 export { default as Checkmark } from './Checkmark'
 export { default as ExternalLink } from './ExternalLink'
 export { default as Emoji } from './Emoji'

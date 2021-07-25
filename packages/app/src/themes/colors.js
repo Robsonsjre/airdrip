@@ -24,6 +24,7 @@ const colors = {
   orange: '#FF9800',
 
   google: '#E13F2A',
+  trading: '#2962ff',
 
   tint: (t = 10) => `#ffffff${t}`,
 

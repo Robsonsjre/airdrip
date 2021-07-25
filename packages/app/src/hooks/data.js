@@ -233,9 +233,9 @@ export function useOptionTokens () {
   }, [get, option, isLoading])
 }
 
-export function useOptionInfo () {
+export function useOptionInfo (force = null) {
   const { spot } = useMarketPrices()
-  const { option, isLoading, warning } = useOption()
+  const { option, isLoading, warning } = useOption(force)
   const helper = useHelper()
   const tokens = useOptionTokens()
 
