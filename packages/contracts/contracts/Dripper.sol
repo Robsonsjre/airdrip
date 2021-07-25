@@ -24,6 +24,7 @@ contract Dripper {
      * @notice Counter for new vault ids.
      */
     uint public nextVaultId;
+    uint256 public constant MIN_GAP_TIME = 24*60*60;
 
     IConfigurationManager public immutable configurationManager;
     ISablier public immutable sablier;
@@ -33,21 +34,24 @@ contract Dripper {
         sablier = _sablier;
     }
 
-    function createOption(
+    function createCampaign(
         IERC20Metadata underlyingAsset,
         IERC20Metadata strikeAsset,
-        uint underlyingAmount,
+        uint campaignAmount,
         uint strikePrice,
         uint expiration,
         uint startTime,
         uint endTime
     ) public returns (uint vaultId) {
-        underlyingAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
+        require(endTime - expiration > MIN_GAP_TIME, "invalid endTime");
+        underlyingAsset.safeTransferFrom(msg.sender, address(this), campaignAmount);
 
         IPodOption option = _createOption(underlyingAsset, strikeAsset, strikePrice, expiration);
-        option.mint(underlyingAmount, address(this));
+        option.mint(campaignAmount, address(this));
 
-        uint streamId = sablier.createStream(address(this), underlyingAmount, address(option), startTime, endTime);
+        option.approve(address(sablier), campaignAmount);
+
+        uint streamId = sablier.createStream(address(this), campaignAmount, address(option), startTime, endTime);
 
         vaultId = nextVaultId;
         vaults[vaultId] = Vault({
