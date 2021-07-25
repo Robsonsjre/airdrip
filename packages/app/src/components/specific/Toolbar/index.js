@@ -65,7 +65,7 @@ function Toolbar () {
         <Content>
           <Brand to='/' className='unstyled'>
             <Label primary as='div'>
-              🧊&nbsp;&nbsp;YieldFarming 2.0
+              🧊&nbsp;&nbsp;Airdrip
             </Label>
 
             <h1 className='bold'>Campaigns</h1>
