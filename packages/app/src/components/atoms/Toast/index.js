@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import _ from 'lodash'
 import React, { useMemo } from 'react'
-import styled, { css } from 'styled-components'
-import { lighten } from 'polished'
+import styled from 'styled-components'
+import { darken } from 'polished'
 import { DefaultToast, DefaultToastContainer } from 'react-toast-notifications'
 import { useWindowSize } from '../../../hooks'
 import Theme from '../../../themes'
@@ -54,7 +54,7 @@ const TopDarkToastWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 14px;
-  background-color: ${props => props.theme.colors.darkAbsolute};
+  background-color: ${props => darken(0.05, props.theme.colors.dark)};
   border-radius: 8px;
   box-shadow: 0px 5px 15px -4px rgba(38, 41, 64, 0.4) !important;
   margin: 10px;
@@ -73,15 +73,8 @@ const TopDarkToastWrapper = styled.div`
   p,
   svg,
   span {
-    color: ${props => props.theme.colors.whiteAbsolute};
+    color: ${props => props.theme.colors.white};
   }
-
-  ${props =>
-    props.theme.isDark &&
-    css`
-      background-color: ${props =>
-        lighten(0.04, props.theme.colors.darkAbsolute)};
-    `}
 `
 
 function TopDarkToast ({ appearance, children: c }) {

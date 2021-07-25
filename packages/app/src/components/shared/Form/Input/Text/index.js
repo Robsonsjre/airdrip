@@ -99,7 +99,7 @@ const Input = styled.input`
 
   &::placeholder {
     -webkit-appearance: none;
-    color: ${props => props.theme.colors.content};
+    color: ${props => props.theme.colors.tint(50)};
     font-size: 12pt;
     font-weight: 500;
     opacity: 1;
