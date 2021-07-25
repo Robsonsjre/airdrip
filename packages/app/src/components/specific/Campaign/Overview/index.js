@@ -46,7 +46,7 @@ const Amount = styled.p`
   }
 `
 
-export default function Checkout () {
+export default function Overview () {
   return (
     <Wrapper>
       <Container>

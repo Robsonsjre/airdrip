@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as Diamond } from '../../../assets/decorators/diamond.svg'
-import Checkout from './Checkout'
+import Overview from './Overview'
 import Trading from './Trading'
 import Info from './Info'
 
@@ -78,7 +78,7 @@ function Campaign () {
             <Trading />
           </Left>
           <Right>
-            <Checkout />
+            <Overview />
           </Right>
         </Playground>
         <Row />
