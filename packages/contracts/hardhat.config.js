@@ -7,6 +7,11 @@ require('dotenv').config({
 require('@nomiclabs/hardhat-ethers')
 require('@nomiclabs/hardhat-waffle')
 require('@nomiclabs/hardhat-solhint')
+require('@nomiclabs/hardhat-etherscan')
+require('@tenderly/hardhat-tenderly')
+
+require('./tasks/deployDripper')
+require('./tasks/createCampaign')
 
 module.exports = {
   solidity: {
@@ -30,5 +35,8 @@ module.exports = {
       url: 'https://kovan.infura.io/v3/' + process.env.INFURA_PROJECT_ID,
       network_id: 42
     },
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_APIKEY
   }
 }

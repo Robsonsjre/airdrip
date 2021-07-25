@@ -29,7 +29,7 @@ describe('Dripper', () => {
   describe('Option', () => {
     it('creates the option and stream', async () => {
       const timestamp = await getTimestamp()
-      const tx = dripper.createOption(
+      const tx = dripper.createCampaign(
         underlying.address,
         strike.address,
         underlyingAmount,

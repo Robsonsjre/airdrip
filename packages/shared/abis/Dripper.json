@@ -1,0 +1,148 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IConfigurationManager",
+        "name": "_configurationManager",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ISablier",
+        "name": "_sablier",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "MIN_GAP_TIME",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "configurationManager",
+    "outputs": [
+      {
+        "internalType": "contract IConfigurationManager",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20Metadata",
+        "name": "underlyingAsset",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20Metadata",
+        "name": "strikeAsset",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "campaignAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "strikePrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiration",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "createCampaign",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nextVaultId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "sablier",
+    "outputs": [
+      {
+        "internalType": "contract ISablier",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "vaults",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "streamId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "option",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

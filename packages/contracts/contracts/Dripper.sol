@@ -23,6 +23,12 @@ contract Dripper {
      */
     mapping(address => Campaign) private _campaigns;
 
+    /**
+     * @notice Counter for new vault ids.
+     */
+    uint public nextVaultId;
+    uint256 public constant MIN_GAP_TIME = 24*60*60;
+
     IConfigurationManager public immutable configurationManager;
     ISablier public immutable sablier;
 
@@ -38,20 +44,24 @@ contract Dripper {
     function createCampaign(
         IERC20Metadata underlyingAsset,
         IERC20Metadata strikeAsset,
-        uint underlyingAmount,
+        uint campaignAmount,
         uint strikePrice,
         uint expiration,
         uint startTime,
         uint endTime
-    ) public returns (address) {
-        underlyingAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
+    ) public returns (uint vaultId) {
+        require(endTime - expiration > MIN_GAP_TIME, "invalid endTime");
+        underlyingAsset.safeTransferFrom(msg.sender, address(this), campaignAmount);
 
         IPodOption option = _createOption(underlyingAsset, strikeAsset, strikePrice, expiration);
-        underlyingAsset.approve(address(option), underlyingAmount);
-        option.mint(underlyingAmount, address(this));
 
-        DripToken drip = new DripToken(this);
-        uint streamId = sablier.createStream(address(drip), underlyingAmount, address(option), startTime, endTime);
+        underlyingAsset.approve(address(option), campaignAmount);
+        
+        option.mint(campaignAmount, address(this));
+
+        option.approve(address(sablier), campaignAmount);
+
+        uint streamId = sablier.createStream(address(this), campaignAmount, address(option), startTime, endTime);
 
         _campaigns[address(drip)] = Campaign({
             owner: msg.sender,
