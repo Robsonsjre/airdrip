@@ -11,6 +11,7 @@ contract Dripper {
 
     struct Vault {
         uint streamId;
+        address drip;
         address option;
         address owner;
     }
@@ -33,7 +34,7 @@ contract Dripper {
         sablier = _sablier;
     }
 
-    function createOption(
+    function createCampaign(
         IERC20Metadata underlyingAsset,
         IERC20Metadata strikeAsset,
         uint underlyingAmount,
@@ -51,12 +52,13 @@ contract Dripper {
 
         vaultId = nextVaultId;
         vaults[vaultId] = Vault({
-            owner : msg.sender,
-            option : address(option),
-            streamId : streamId
+            owner: msg.sender,
+            option: address(option),
+            streamId: streamId
         });
 
         nextVaultId++;
+        // Mint DRIP
     }
 
     function _createOption(
@@ -82,14 +84,17 @@ contract Dripper {
         );
     }
 
-    //   function claim(uint256 amount, IDripToken drip) public return(bool) {
-    //       // remove from stream
-    //       sablier.withdrawFromStream(amount, drip.streamId);
-    //
-    //       strikeAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
-    //
-    //       strikeAsset.approve(option.address, option.strikePrice * amount);
-    //
-    //       option.exercise(amount);
-    //   }
+    function claim(uint vaultId, uint underlyingAmount) public {
+        Vault vault = vaults[vaultId];
+        // Burn DRIP
+        sablier.withdrawFromStream(underlyingAmount, vault.streamId);
+
+        IPodOption option = IPodOption(vault.option);
+
+        uint strikeToSend = option.strikePrice() * underlyingAmount;
+        IERC20(option.strikeAsset()).safeTransferFrom(msg.sender, address(this), strikeToSend);
+        IERC20(option.strikeAsset()).approve(vault.option, strikeToSend);
+
+        option.exercise(underlyingAmount);
+    }
 }
