@@ -1,0 +1,35 @@
+{
+  "name": "defuse",
+  "description": "Protected liquidity mining / vesting campaigns with options",
+  "version": "1.0.0",
+  "author": "Defuse",
+  "devDependencies": {
+    "lerna": "3.20.2"
+  },
+  "license": "MIT",
+  "main": "packages",
+  "scripts": {
+    "build": "lerna run build",
+    "lint": "cd packages/app && yarn run lint:fix"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "react-hooks"
+    ],
+    "globals": [
+      "it",
+      "describe",
+      "beforeAll",
+      "test",
+      "expect",
+      "fetch",
+      "localStorage"
+    ],
+    "settings": {
+      "react": {
+        "version": "^16.13.1"
+      }
+    }
+  }
+}
