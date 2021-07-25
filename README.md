@@ -15,7 +15,7 @@ We're maintaining this as a monorepo with multiple sub packages.
 | Package                                                   | Description                                                       |
 | --------------------------------------------------------- | ----------------------------------------------------------------- |
 | [`app`](/packages/app)               | Rockstar frontend, both for the Distributor and the Receiver       |
-| [`contracts`](/packages/contracts)                   | Zap Contracts and Call + Streaming Vaults                       |
+| [`contracts`](/packages/contracts)                   | Dripper Contracts and Call + Streaming Vaults                       |
 | [`content`](/packages/content)                 | Research and Presentation                                       |
 | [`shared`](/packages/shared) | Smart contracts to be shared across projects and packages |
 
@@ -25,8 +25,7 @@ We're maintaining this as a monorepo with multiple sub packages.
 
 | Name          | Description                      | Address                                                                                                                     |
 | ------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Vault |   Created for managing the Stream positions  | [0x](https://kovan.etherscan.io/address/0x) |
-| Zap Creation       | Proxy used in our web interfaces | [0x7](https://kovan.etherscan.io/address/0x7) |
+| Dripper |   Created for managing the Stream positions  | [0x](https://kovan.etherscan.io/address/0x) |
 
 
 ## Usage :hammer_and_pick:
