@@ -5,20 +5,23 @@ import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IConfigurationManager, IOptionAMMFactory, IOptionFactory, IPodOption} from "../external/Pods.sol";
 import {ISablier} from "../external/ISablier.sol";
+import "./DripToken.sol";
+import "./Types.sol";
 
 contract Dripper {
+    using SafeERC20 for IERC20;
     using SafeERC20 for IERC20Metadata;
 
-    struct Vault {
+    struct Campaign {
         uint streamId;
         address option;
         address owner;
     }
 
     /**
-     * @notice The vault objects identifiable by their unsigned integer ids.
+     * @notice The campaigns objects identifiable by their DripToken address.
      */
-    mapping(uint => Vault) public vaults;
+    mapping(address => Campaign) private _campaigns;
 
     /**
      * @notice Counter for new vault ids.
@@ -32,6 +35,10 @@ contract Dripper {
     constructor(IConfigurationManager _configurationManager, ISablier _sablier) {
         configurationManager = _configurationManager;
         sablier = _sablier;
+    }
+
+    function getCampaign(address drip) public view returns(Campaign memory) {
+        return _campaigns[drip];
     }
 
     function createCampaign(
@@ -56,14 +63,14 @@ contract Dripper {
 
         uint streamId = sablier.createStream(address(this), campaignAmount, address(option), startTime, endTime);
 
-        vaultId = nextVaultId;
-        vaults[vaultId] = Vault({
-            owner : msg.sender,
-            option : address(option),
-            streamId : streamId
+        _campaigns[address(drip)] = Campaign({
+            owner: msg.sender,
+            option: address(option),
+            streamId: streamId
         });
 
-        nextVaultId++;
+        drip.mint(msg.sender, underlyingAmount);
+        return address(drip);
     }
 
     function _createOption(
@@ -89,14 +96,19 @@ contract Dripper {
         );
     }
 
-    //   function claim(uint256 amount, IDripToken drip) public return(bool) {
-    //       // remove from stream
-    //       sablier.withdrawFromStream(amount, drip.streamId);
-    //
-    //       strikeAsset.safeTransferFrom(msg.sender, address(this), underlyingAmount);
-    //
-    //       strikeAsset.approve(option.address, option.strikePrice * amount);
-    //
-    //       option.exercise(amount);
-    //   }
+    function claim(DripToken dripToken, uint underlyingAmount) public {
+        Campaign memory campaign = _campaigns[address(dripToken)];
+        dripToken.burn(msg.sender, underlyingAmount);
+
+        sablier.withdrawFromStream(underlyingAmount, campaign.streamId);
+
+        IPodOption option = IPodOption(campaign.option);
+
+        uint strikeToSend = option.strikePrice() * underlyingAmount;
+        IERC20(option.strikeAsset()).safeTransferFrom(msg.sender, address(this), strikeToSend);
+        IERC20(option.strikeAsset()).approve(campaign.option, strikeToSend);
+
+        option.exercise(underlyingAmount);
+        require(option.transfer(msg.sender, underlyingAmount), "DRIP_TRANSFER_FAILED");
+    }
 }

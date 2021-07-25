@@ -60,6 +60,8 @@
 
         function strikeToTransfer(uint256 amountOfOptions) external view returns (uint256);
 
+        function decimals() external view returns (uint8);
+
         function getSellerWithdrawAmounts(address owner) external view returns (uint256 strikeAmount, uint256 underlyingAmount);
 
         function underlyingReserves() external view returns (uint256);
