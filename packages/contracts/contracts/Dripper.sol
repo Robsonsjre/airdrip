@@ -7,14 +7,22 @@ import {IConfigurationManager, IOptionAMMFactory, IOptionFactory, IPodOption} fr
 import {ISablier} from "../external/ISablier.sol";
 import "./DripToken.sol";
 
+/**
+ * @title Airdrip Vesting
+ * @author Pods Finance
+ * @notice Represents a vesting mechanism that aligns token receiver incentives while protects
+ * liquidity programs from dumps
+ */
 contract Dripper {
     using SafeERC20 for IERC20;
     using SafeERC20 for IERC20Metadata;
 
+    /**
+     * @notice The campaigns objects identifiable by their DripToken address.
+     */
     struct Campaign {
         uint streamId;
         address option;
-        address owner;
     }
 
     /**
@@ -22,18 +30,47 @@ contract Dripper {
      */
     mapping(address => Campaign) private _campaigns;
 
-    IConfigurationManager public immutable configurationManager;
-    ISablier public immutable sablier;
+    /**
+     * @notice Pods entrypoint to create options.
+     */
+    address private immutable _configurationManager;
 
-    constructor(IConfigurationManager _configurationManager, ISablier _sablier) {
-        configurationManager = _configurationManager;
-        sablier = _sablier;
+    /**
+     * @notice Sablier stream creator
+     */
+    address private immutable _sablier;
+
+    event CampaignCreated(address indexed creator, address campaignId);
+
+    constructor(address configurationManager_, address sablier_) {
+        _configurationManager = configurationManager_;
+        _sablier = sablier_;
     }
 
+    /**
+     * @dev Returns the address of Pods ConfigurationManager used to create options.
+     */
+    function configurationManager() public view returns(address) {
+        return _configurationManager;
+    }
+
+    /**
+     * @dev Returns the address of Sablier master contract used to create streams.
+     */
+    function sablier() public view returns(address) {
+        return _sablier;
+    }
+
+    /**
+     * @dev Returns the Campaign associated with a DripToken.
+     */
     function getCampaign(address drip) public view returns(Campaign memory) {
         return _campaigns[drip];
     }
 
+    /**
+     * @dev Create a campaign
+     */
     function createCampaign(
         IERC20Metadata underlyingAsset,
         IERC20Metadata strikeAsset,
@@ -50,25 +87,29 @@ contract Dripper {
         option.mint(underlyingAmount, address(this));
 
         DripToken drip = new DripToken(this);
-        uint streamId = sablier.createStream(address(drip), underlyingAmount, address(option), startTime, endTime);
+        drip.mint(msg.sender, underlyingAmount);
+
+        uint streamId = ISablier(_sablier).createStream(address(drip), underlyingAmount, address(option), startTime, endTime);
 
         _campaigns[address(drip)] = Campaign({
-            owner: msg.sender,
             option: address(option),
             streamId: streamId
         });
 
-        drip.mint(msg.sender, underlyingAmount);
+        emit CampaignCreated(msg.sender, address(drip));
         return address(drip);
     }
 
+    /**
+     * @dev Create a Option on Pods Finance
+     */
     function _createOption(
         IERC20Metadata underlyingAsset,
         IERC20Metadata strikeAsset,
         uint strikePrice,
         uint expiration
     ) internal returns (IPodOption) {
-        IOptionFactory optionFactory = IOptionFactory(configurationManager.getOptionFactory());
+        IOptionFactory optionFactory = IOptionFactory(IConfigurationManager(_configurationManager).getOptionFactory());
         return IPodOption(
             optionFactory.createOption(
                 string(abi.encodePacked(underlyingAsset.symbol(), " Call Option")),
@@ -83,21 +124,5 @@ contract Dripper {
                 false
             )
         );
-    }
-
-    function claim(DripToken dripToken, uint underlyingAmount) public {
-        Campaign memory campaign = _campaigns[address(dripToken)];
-        dripToken.burn(msg.sender, underlyingAmount);
-
-        sablier.withdrawFromStream(underlyingAmount, campaign.streamId);
-
-        IPodOption option = IPodOption(campaign.option);
-
-        uint strikeToSend = option.strikePrice() * underlyingAmount;
-        IERC20(option.strikeAsset()).safeTransferFrom(msg.sender, address(this), strikeToSend);
-        IERC20(option.strikeAsset()).approve(campaign.option, strikeToSend);
-
-        option.exercise(underlyingAmount);
-        require(option.transfer(msg.sender, underlyingAmount), "DRIP_TRANSFER_FAILED");
     }
 }
