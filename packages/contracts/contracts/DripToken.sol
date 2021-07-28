@@ -12,17 +12,16 @@ contract DripToken is ERC20, ERC20Permit, Ownable {
     using SafeERC20 for IERC20;
     Dripper public immutable dripper;
 
-    constructor(Dripper _dripper) ERC20("DRIP", "Drip Token") {
+    constructor(Dripper _dripper) ERC20("DRIP", "Drip Token") ERC20Permit("Drip Token") {
         dripper = _dripper;
     }
 
     function decimals() public view virtual override returns (uint8) {
         Dripper.Campaign memory campaign = dripper.getCampaign(address(this));
-        IPodOption option = IPodOption(campaign.option);
-        return option.decimals();
+        return IPodOption(campaign.option).decimals();
     }
 
-    function mint(address account, uint256 amount) external onlyOwner {
+    function mint(address account, uint amount) external onlyOwner {
         _mint(account, amount);
     }
 
