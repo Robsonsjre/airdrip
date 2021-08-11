@@ -17,7 +17,14 @@ contract DripToken is ERC20, ERC20Permit, Ownable {
     dripper = _dripper;
   }
 
-  function decimals() public view virtual override returns (uint8) {
+  modifier notStreaming {
+    Dripper.Campaign memory campaign = dripper.getCampaign(address(this));
+    (,,,, uint256 startTime, uint256 stopTime,,) = ISablier(dripper.sablier()).getStream(campaign.streamId);
+    require(block.timestamp < startTime || block.timestamp > stopTime, "STREAM_ACTIVE");
+    _;
+  }
+
+  function decimals() public view override returns (uint8) {
     Dripper.Campaign memory campaign = dripper.getCampaign(address(this));
     return IPodOption(campaign.option).decimals();
   }
@@ -42,15 +49,15 @@ contract DripToken is ERC20, ERC20Permit, Ownable {
     IERC20(option.underlyingAsset()).safeTransfer(msg.sender, amount);
   }
 
-  function transfer(address recipient, uint256 amount) public override returns (bool) {
+  function notStreaming(address recipient, uint256 amount) public beforeStreaming override returns (bool) {
     return super.transfer(recipient, amount);
   }
 
-  function transferFrom(
+  function notStreaming(
     address sender,
     address recipient,
     uint256 amount
-  ) public override returns (bool) {
+  ) public beforeStreaming override returns (bool) {
     return super.transferFrom(sender, recipient, amount);
   }
 
