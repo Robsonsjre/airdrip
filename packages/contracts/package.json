@@ -1,7 +1,7 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "description": "Defuse contracts",
+  "description": "Airdrip contracts",
   "main": "index.js",
   "license": "MIT",
   "private": true,

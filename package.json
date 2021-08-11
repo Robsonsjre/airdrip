@@ -1,8 +1,8 @@
 {
-  "name": "defuse",
+  "name": "airdrip",
   "description": "Protected liquidity mining / vesting campaigns with options",
   "version": "1.0.0",
-  "author": "Defuse",
+  "author": "Pods team",
   "devDependencies": {
     "lerna": "3.20.2"
   },
