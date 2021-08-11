@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -40,4 +41,17 @@ contract DripToken is ERC20, ERC20Permit, Ownable {
 
     IERC20(option.underlyingAsset()).safeTransfer(msg.sender, amount);
   }
+
+  function transfer(address recipient, uint256 amount) public override returns (bool) {
+    return super.transfer(recipient, amount);
+  }
+
+  function transferFrom(
+    address sender,
+    address recipient,
+    uint256 amount
+  ) public override returns (bool) {
+    return super.transferFrom(sender, recipient, amount);
+  }
+
 }
